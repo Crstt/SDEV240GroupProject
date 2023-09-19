@@ -28,27 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             dataGridView1 = new DataGridView();
             Category = new DataGridViewTextBoxColumn();
             Item = new DataGridViewTextBoxColumn();
             Material = new DataGridViewTextBoxColumn();
-            Size_Desc = new DataGridViewTextBoxColumn();
+            SizeDesc = new DataGridViewTextBoxColumn();
             Quantity = new DataGridViewTextBoxColumn();
             Cost = new DataGridViewTextBoxColumn();
             button1 = new Button();
+            timer1 = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Category, Item, Material, Size_Desc, Quantity, Cost });
-            dataGridView1.Location = new Point(12, 12);
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Category, Item, Material, SizeDesc, Quantity, Cost });
+            dataGridView1.Location = new Point(8, 7);
+            dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.RowTemplate.Height = 33;
-            dataGridView1.Size = new Size(967, 834);
+            dataGridView1.Size = new Size(965, 500);
             dataGridView1.TabIndex = 0;
+            dataGridView1.RowValidated += dataGridView1_RowValidated;
+            dataGridView1.RowValidating += dataGridView1_RowValidating;
+            dataGridView1.UserDeletingRow += dataGridView1_UserDeletingRow;
             // 
             // Category
             // 
@@ -71,12 +77,12 @@
             Material.Name = "Material";
             Material.Width = 150;
             // 
-            // Size_Desc
+            // SizeDesc
             // 
-            Size_Desc.HeaderText = "Size / Description";
-            Size_Desc.MinimumWidth = 8;
-            Size_Desc.Name = "Size_Desc";
-            Size_Desc.Width = 150;
+            SizeDesc.HeaderText = "Size / Description";
+            SizeDesc.MinimumWidth = 8;
+            SizeDesc.Name = "SizeDesc";
+            SizeDesc.Width = 150;
             // 
             // Quantity
             // 
@@ -94,21 +100,27 @@
             // 
             // button1
             // 
-            button1.Location = new Point(162, 909);
+            button1.Location = new Point(8, 544);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
-            button1.Size = new Size(112, 34);
+            button1.Size = new Size(78, 20);
             button1.TabIndex = 1;
             button1.Text = "button1";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // timer1
+            // 
+            timer1.Tick += timer1_Tick;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1090, 1074);
+            ClientSize = new Size(985, 713);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
+            Margin = new Padding(2);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -118,12 +130,13 @@
         #endregion
 
         private DataGridView dataGridView1;
+        private Button button1;
         private DataGridViewTextBoxColumn Category;
         private DataGridViewTextBoxColumn Item;
         private DataGridViewTextBoxColumn Material;
-        private DataGridViewTextBoxColumn Size_Desc;
+        private DataGridViewTextBoxColumn SizeDesc;
         private DataGridViewTextBoxColumn Quantity;
         private DataGridViewTextBoxColumn Cost;
-        private Button button1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
