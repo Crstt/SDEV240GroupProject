@@ -38,11 +38,21 @@
             Cost = new DataGridViewTextBoxColumn();
             button1 = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
+            insertGroup = new GroupBox();
+            addItemBtn = new Button();
+            costCombo = new ComboBox();
+            quantityCombo = new ComboBox();
+            sizeDescCombo = new ComboBox();
+            materialCombo = new ComboBox();
+            itemCombo = new ComboBox();
+            categoryCombo = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            insertGroup.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Category, Item, Material, SizeDesc, Quantity, Cost });
             dataGridView1.Location = new Point(8, 7);
@@ -52,8 +62,7 @@
             dataGridView1.RowTemplate.Height = 33;
             dataGridView1.Size = new Size(965, 500);
             dataGridView1.TabIndex = 0;
-            dataGridView1.RowValidated += dataGridView1_RowValidated;
-            dataGridView1.RowValidating += dataGridView1_RowValidating;
+            dataGridView1.UserDeletedRow += dataGridView1_UserDeletedRow;
             dataGridView1.UserDeletingRow += dataGridView1_UserDeletingRow;
             // 
             // Category
@@ -113,17 +122,93 @@
             // 
             timer1.Tick += timer1_Tick;
             // 
+            // insertGroup
+            // 
+            insertGroup.Controls.Add(addItemBtn);
+            insertGroup.Controls.Add(costCombo);
+            insertGroup.Controls.Add(quantityCombo);
+            insertGroup.Controls.Add(sizeDescCombo);
+            insertGroup.Controls.Add(materialCombo);
+            insertGroup.Controls.Add(itemCombo);
+            insertGroup.Controls.Add(categoryCombo);
+            insertGroup.Location = new Point(978, 7);
+            insertGroup.Name = "insertGroup";
+            insertGroup.Size = new Size(306, 500);
+            insertGroup.TabIndex = 2;
+            insertGroup.TabStop = false;
+            insertGroup.Text = "Add New Items";
+            // 
+            // addItemBtn
+            // 
+            addItemBtn.Location = new Point(6, 207);
+            addItemBtn.Name = "addItemBtn";
+            addItemBtn.Size = new Size(75, 23);
+            addItemBtn.TabIndex = 6;
+            addItemBtn.Text = "Add";
+            addItemBtn.UseVisualStyleBackColor = true;
+            addItemBtn.Click += addItemBtn_Click;
+            // 
+            // costCombo
+            // 
+            costCombo.FormattingEnabled = true;
+            costCombo.Location = new Point(6, 178);
+            costCombo.Name = "costCombo";
+            costCombo.Size = new Size(283, 23);
+            costCombo.TabIndex = 5;
+            // 
+            // quantityCombo
+            // 
+            quantityCombo.FormattingEnabled = true;
+            quantityCombo.Location = new Point(6, 149);
+            quantityCombo.Name = "quantityCombo";
+            quantityCombo.Size = new Size(283, 23);
+            quantityCombo.TabIndex = 4;
+            // 
+            // sizeDescCombo
+            // 
+            sizeDescCombo.FormattingEnabled = true;
+            sizeDescCombo.Location = new Point(6, 120);
+            sizeDescCombo.Name = "sizeDescCombo";
+            sizeDescCombo.Size = new Size(283, 23);
+            sizeDescCombo.TabIndex = 3;
+            // 
+            // materialCombo
+            // 
+            materialCombo.FormattingEnabled = true;
+            materialCombo.Location = new Point(6, 91);
+            materialCombo.Name = "materialCombo";
+            materialCombo.Size = new Size(283, 23);
+            materialCombo.TabIndex = 2;
+            // 
+            // itemCombo
+            // 
+            itemCombo.FormattingEnabled = true;
+            itemCombo.Location = new Point(6, 62);
+            itemCombo.Name = "itemCombo";
+            itemCombo.Size = new Size(283, 23);
+            itemCombo.TabIndex = 1;
+            // 
+            // categoryCombo
+            // 
+            categoryCombo.FormattingEnabled = true;
+            categoryCombo.Location = new Point(6, 33);
+            categoryCombo.Name = "categoryCombo";
+            categoryCombo.Size = new Size(283, 23);
+            categoryCombo.TabIndex = 0;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(985, 713);
+            ClientSize = new Size(1279, 713);
+            Controls.Add(insertGroup);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
             Margin = new Padding(2);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            insertGroup.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -138,5 +223,13 @@
         private DataGridViewTextBoxColumn Quantity;
         private DataGridViewTextBoxColumn Cost;
         private System.Windows.Forms.Timer timer1;
+        private GroupBox insertGroup;
+        private Button addItemBtn;
+        private ComboBox costCombo;
+        private ComboBox quantityCombo;
+        private ComboBox sizeDescCombo;
+        private ComboBox materialCombo;
+        private ComboBox itemCombo;
+        private ComboBox categoryCombo;
     }
 }
