@@ -13,12 +13,13 @@ namespace SDEV240GroupProject
         public string Material { get; set; }
         public string SizeDesc { get; set; }
         public int Quantity { get; set; }
+        public double UnitCost { get; set; }
         public double Cost { get; set; }
 
-        public Item(string category, string name, string material, string sizeDesc, string quantityStr, string costStr)
+        public Item(string category, string name, string material, string sizeDesc, string quantityStr, string unitCostStr)
         {
-            int quantity = Quantity;
-            double cost = Cost;
+            int quantity;
+            double unitCost;
 
             // Check if all required fields are filled in
             if (string.IsNullOrWhiteSpace(category) ||
@@ -31,15 +32,15 @@ namespace SDEV240GroupProject
 
             // Check if the quantity and cost values are valid numbers
             if (!int.TryParse(quantityStr.ToString(), out quantity) ||
-                !double.TryParse(costStr.ToString(), out cost))
+                !double.TryParse(unitCostStr.ToString(), out unitCost))
             {
-                throw new ArgumentOutOfRangeException("The quantity and cost values must be valid numbers.");
+                throw new ArgumentOutOfRangeException("The quantity and unit cost values must be valid numbers.");
             }
 
             // Check if the quantity and cost values are within the allowed range
-            if (quantity <= 0 || cost < 0)
+            if (quantity <= 0 || unitCost < 0)
             {
-                throw new ArgumentOutOfRangeException("The quantity must be greater than zero and the cost must be greater than or equal to zero.");
+                throw new ArgumentOutOfRangeException("The quantity must be greater than zero and the unit cost must be greater than or equal to zero.");
             }
 
             this.Category = category;
@@ -47,7 +48,8 @@ namespace SDEV240GroupProject
             this.Material = material;
             this.SizeDesc = sizeDesc;
             this.Quantity = quantity;
-            this.Cost = cost;
+            this.UnitCost = unitCost;
+            this.Cost = this.Quantity * this.UnitCost;
         }
     }
 
