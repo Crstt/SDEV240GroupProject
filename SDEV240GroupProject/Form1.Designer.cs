@@ -46,6 +46,7 @@
             resetBtn = new Button();
             importBtn = new Button();
             saveBtn = new Button();
+
             Category = new DataGridViewTextBoxColumn();
             Item = new DataGridViewTextBoxColumn();
             Material = new DataGridViewTextBoxColumn();
@@ -53,6 +54,7 @@
             Quantity = new DataGridViewTextBoxColumn();
             UnitCost = new DataGridViewTextBoxColumn();
             Cost = new DataGridViewTextBoxColumn();
+
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             insertGroup.SuspendLayout();
             totalCostBox.SuspendLayout();
@@ -230,6 +232,9 @@
             resetBtn.TabIndex = 11;
             resetBtn.Text = "Reset";
             resetBtn.UseVisualStyleBackColor = true;
+
+            resetBtn.Click += resetBtn_Click;
+
             // 
             // importBtn
             // 
@@ -240,6 +245,7 @@
             importBtn.TabIndex = 10;
             importBtn.Text = "Import";
             importBtn.UseVisualStyleBackColor = true;
+            importBtn.Click += importBtn_Click;
             // 
             // saveBtn
             // 
@@ -250,6 +256,7 @@
             saveBtn.TabIndex = 9;
             saveBtn.Text = "Save";
             saveBtn.UseVisualStyleBackColor = true;
+
             // 
             // Category
             // 
@@ -306,6 +313,7 @@
             Cost.Name = "Cost";
             Cost.ReadOnly = true;
             Cost.Width = 189;
+
             // 
             // Form1
             // 
