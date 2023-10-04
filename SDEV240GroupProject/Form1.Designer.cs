@@ -37,8 +37,8 @@
             UnitCost = new DataGridViewTextBoxColumn();
             Cost = new DataGridViewTextBoxColumn();
             insertGroup = new GroupBox();
-            clearBtn = new Button();
             editBtn = new Button();
+            clearBtn = new Button();
             addItemBtn = new Button();
             costCombo = new ComboBox();
             quantityCombo = new ComboBox();
@@ -50,9 +50,9 @@
             totalCostLbl = new Label();
             calcBtn = new Button();
             groupBox1 = new GroupBox();
-            saveBtn = new Button();
-            importBtn = new Button();
             resetBtn = new Button();
+            importBtn = new Button();
+            saveBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             insertGroup.SuspendLayout();
             totalCostBox.SuspendLayout();
@@ -150,16 +150,6 @@
             insertGroup.TabStop = false;
             insertGroup.Text = "Add New Items";
             // 
-            // clearBtn
-            // 
-            clearBtn.Location = new Point(305, 340);
-            clearBtn.Margin = new Padding(4, 5, 4, 5);
-            clearBtn.Name = "clearBtn";
-            clearBtn.Size = new Size(107, 38);
-            clearBtn.TabIndex = 8;
-            clearBtn.Text = "Clear";
-            clearBtn.UseVisualStyleBackColor = true;
-            // 
             // editBtn
             // 
             editBtn.Location = new Point(159, 340);
@@ -169,6 +159,16 @@
             editBtn.TabIndex = 7;
             editBtn.Text = "Edit";
             editBtn.UseVisualStyleBackColor = true;
+            // 
+            // clearBtn
+            // 
+            clearBtn.Location = new Point(305, 340);
+            clearBtn.Margin = new Padding(4, 5, 4, 5);
+            clearBtn.Name = "clearBtn";
+            clearBtn.Size = new Size(107, 38);
+            clearBtn.TabIndex = 8;
+            clearBtn.Text = "Clear";
+            clearBtn.UseVisualStyleBackColor = true;
             // 
             // addItemBtn
             // 
@@ -277,15 +277,16 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Material List";
             // 
-            // saveBtn
+            // resetBtn
             // 
-            saveBtn.Location = new Point(7, 32);
-            saveBtn.Margin = new Padding(4, 5, 4, 5);
-            saveBtn.Name = "saveBtn";
-            saveBtn.Size = new Size(107, 38);
-            saveBtn.TabIndex = 9;
-            saveBtn.Text = "Save";
-            saveBtn.UseVisualStyleBackColor = true;
+            resetBtn.Location = new Point(305, 32);
+            resetBtn.Margin = new Padding(4, 5, 4, 5);
+            resetBtn.Name = "resetBtn";
+            resetBtn.Size = new Size(107, 38);
+            resetBtn.TabIndex = 11;
+            resetBtn.Text = "Reset";
+            resetBtn.UseVisualStyleBackColor = true;
+            resetBtn.Click += resetBtn_Click;
             // 
             // importBtn
             // 
@@ -296,16 +297,18 @@
             importBtn.TabIndex = 10;
             importBtn.Text = "Import";
             importBtn.UseVisualStyleBackColor = true;
+            importBtn.Click += importBtn_Click;
             // 
-            // resetBtn
+            // saveBtn
             // 
-            resetBtn.Location = new Point(305, 32);
-            resetBtn.Margin = new Padding(4, 5, 4, 5);
-            resetBtn.Name = "resetBtn";
-            resetBtn.Size = new Size(107, 38);
-            resetBtn.TabIndex = 11;
-            resetBtn.Text = "Reset";
-            resetBtn.UseVisualStyleBackColor = true;
+            saveBtn.Location = new Point(7, 32);
+            saveBtn.Margin = new Padding(4, 5, 4, 5);
+            saveBtn.Name = "saveBtn";
+            saveBtn.Size = new Size(107, 38);
+            saveBtn.TabIndex = 9;
+            saveBtn.Text = "Save";
+            saveBtn.UseVisualStyleBackColor = true;
+            saveBtn.Click += saveBtn_Click;
             // 
             // Form1
             // 
