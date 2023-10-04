@@ -229,5 +229,16 @@ namespace SDEV240GroupProject
             // Clear the dictionary
             items.Clear();
         }
+
+        private void calcBtn_Click(object sender, EventArgs e)
+        {
+            double TotalCost = 0;
+            foreach (Item item in items.Values)
+            {
+                TotalCost += item.Cost;
+
+            }
+            totalCostLbl.Text = "$" + Convert.ToString(TotalCost);
+        }
     }
 }
