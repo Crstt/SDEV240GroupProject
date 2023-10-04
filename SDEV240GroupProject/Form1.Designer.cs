@@ -29,6 +29,13 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
+            Category = new DataGridViewTextBoxColumn();
+            Item = new DataGridViewTextBoxColumn();
+            Material = new DataGridViewTextBoxColumn();
+            SizeDesc = new DataGridViewTextBoxColumn();
+            Quantity = new DataGridViewTextBoxColumn();
+            UnitCost = new DataGridViewTextBoxColumn();
+            Cost = new DataGridViewTextBoxColumn();
             insertGroup = new GroupBox();
             editBtn = new Button();
             clearBtn = new Button();
@@ -46,15 +53,6 @@
             resetBtn = new Button();
             importBtn = new Button();
             saveBtn = new Button();
-
-            Category = new DataGridViewTextBoxColumn();
-            Item = new DataGridViewTextBoxColumn();
-            Material = new DataGridViewTextBoxColumn();
-            SizeDesc = new DataGridViewTextBoxColumn();
-            Quantity = new DataGridViewTextBoxColumn();
-            UnitCost = new DataGridViewTextBoxColumn();
-            Cost = new DataGridViewTextBoxColumn();
-
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             insertGroup.SuspendLayout();
             totalCostBox.SuspendLayout();
@@ -75,6 +73,62 @@
             dataGridView1.TabIndex = 0;
             dataGridView1.UserDeletedRow += dataGridView1_UserDeletedRow;
             dataGridView1.UserDeletingRow += dataGridView1_UserDeletingRow;
+            // 
+            // Category
+            // 
+            Category.HeaderText = "Category";
+            Category.MinimumWidth = 8;
+            Category.Name = "Category";
+            Category.ReadOnly = true;
+            Category.Width = 189;
+            // 
+            // Item
+            // 
+            Item.HeaderText = "Item";
+            Item.MinimumWidth = 8;
+            Item.Name = "Item";
+            Item.ReadOnly = true;
+            Item.Width = 189;
+            // 
+            // Material
+            // 
+            Material.HeaderText = "Material";
+            Material.MinimumWidth = 8;
+            Material.Name = "Material";
+            Material.ReadOnly = true;
+            Material.Width = 189;
+            // 
+            // SizeDesc
+            // 
+            SizeDesc.HeaderText = "Size / Description";
+            SizeDesc.MinimumWidth = 8;
+            SizeDesc.Name = "SizeDesc";
+            SizeDesc.ReadOnly = true;
+            SizeDesc.Width = 189;
+            // 
+            // Quantity
+            // 
+            Quantity.HeaderText = "Quantity";
+            Quantity.MinimumWidth = 8;
+            Quantity.Name = "Quantity";
+            Quantity.ReadOnly = true;
+            Quantity.Width = 189;
+            // 
+            // UnitCost
+            // 
+            UnitCost.HeaderText = "Unit Cost";
+            UnitCost.MinimumWidth = 8;
+            UnitCost.Name = "UnitCost";
+            UnitCost.ReadOnly = true;
+            UnitCost.Width = 189;
+            // 
+            // Cost
+            // 
+            Cost.HeaderText = "Cost";
+            Cost.MinimumWidth = 8;
+            Cost.Name = "Cost";
+            Cost.ReadOnly = true;
+            Cost.Width = 189;
             // 
             // insertGroup
             // 
@@ -232,9 +286,7 @@
             resetBtn.TabIndex = 11;
             resetBtn.Text = "Reset";
             resetBtn.UseVisualStyleBackColor = true;
-
             resetBtn.Click += resetBtn_Click;
-
             // 
             // importBtn
             // 
@@ -256,64 +308,7 @@
             saveBtn.TabIndex = 9;
             saveBtn.Text = "Save";
             saveBtn.UseVisualStyleBackColor = true;
-
-            // 
-            // Category
-            // 
-            Category.HeaderText = "Category";
-            Category.MinimumWidth = 8;
-            Category.Name = "Category";
-            Category.ReadOnly = true;
-            Category.Width = 189;
-            // 
-            // Item
-            // 
-            Item.HeaderText = "Item";
-            Item.MinimumWidth = 8;
-            Item.Name = "Item";
-            Item.ReadOnly = true;
-            Item.Width = 189;
-            // 
-            // Material
-            // 
-            Material.HeaderText = "Material";
-            Material.MinimumWidth = 8;
-            Material.Name = "Material";
-            Material.ReadOnly = true;
-            Material.Width = 189;
-            // 
-            // SizeDesc
-            // 
-            SizeDesc.HeaderText = "Size / Description";
-            SizeDesc.MinimumWidth = 8;
-            SizeDesc.Name = "SizeDesc";
-            SizeDesc.ReadOnly = true;
-            SizeDesc.Width = 189;
-            // 
-            // Quantity
-            // 
-            Quantity.HeaderText = "Quantity";
-            Quantity.MinimumWidth = 8;
-            Quantity.Name = "Quantity";
-            Quantity.ReadOnly = true;
-            Quantity.Width = 189;
-            // 
-            // UnitCost
-            // 
-            UnitCost.HeaderText = "Unit Cost";
-            UnitCost.MinimumWidth = 8;
-            UnitCost.Name = "UnitCost";
-            UnitCost.ReadOnly = true;
-            UnitCost.Width = 189;
-            // 
-            // Cost
-            // 
-            Cost.HeaderText = "Cost";
-            Cost.MinimumWidth = 8;
-            Cost.Name = "Cost";
-            Cost.ReadOnly = true;
-            Cost.Width = 189;
-
+            saveBtn.Click += saveBtn_Click;
             // 
             // Form1
             // 
