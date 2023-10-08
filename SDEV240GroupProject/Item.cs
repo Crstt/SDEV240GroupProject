@@ -51,6 +51,10 @@ namespace SDEV240GroupProject
             this.UnitCost = unitCost;
             this.Cost = this.Quantity * this.UnitCost;
         }
+
+        public Item()
+        {
+        }
     }
 
 }

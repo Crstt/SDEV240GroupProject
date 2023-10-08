@@ -264,6 +264,7 @@
             calcBtn.TabIndex = 7;
             calcBtn.Text = "Calculate";
             calcBtn.UseVisualStyleBackColor = true;
+            calcBtn.Click += calcBtn_Click;
             // 
             // groupBox1
             // 
