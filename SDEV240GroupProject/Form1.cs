@@ -12,15 +12,27 @@ namespace SDEV240GroupProject
         List<int> subtotalRows = new List<int>();
         Dictionary<string, Item> items = new Dictionary<string, Item>();
         string fileName = AppDomain.CurrentDomain.BaseDirectory + "MaterialList.csv";
+        ListSortDirection sortingOrder = ListSortDirection.Ascending;
+
+        Dictionary<string, HashSet<string>> uniqueValues = new Dictionary<string, HashSet<string>>
+        {
+            { "Category", new HashSet<string>() },
+            { "Item", new HashSet<string>() },
+            { "Material", new HashSet<string>() },
+            { "SizeDesc", new HashSet<string>() },
+            { "Quantity", new HashSet<string>() },
+            { "UnitCost", new HashSet<string>() }
+        };
 
         public Form1()
         {
             InitializeComponent();
+            dataGridView1.SortCompare += dataGridView1_SortCompare;
 
             // Iterate through the DataGridView's columns
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
-                columnNames.Add(column.HeaderText); // Use .Name if you have explicitly set column names
+                columnNames.Add(column.Name);
             }
         }
 
@@ -105,6 +117,7 @@ namespace SDEV240GroupProject
             items.Remove(key);
 
             UpdateSubtotalRows();
+            RefreshComboBoxes();
         }
 
         private void addItemBtn_Click(object sender, EventArgs e)
@@ -112,7 +125,7 @@ namespace SDEV240GroupProject
             Item newItem;
             try
             {
-                newItem = new Item(categoryCombo.Text.ToString(), itemCombo.Text.ToString(), materialCombo.Text.ToString(), sizeDescCombo.Text.ToString(), quantityCombo.Text.ToString(), costCombo.Text.ToString());
+                newItem = new Item(categoryCombo.Text.ToString(), itemCombo.Text.ToString(), materialCombo.Text.ToString(), sizeDescCombo.Text.ToString(), quantityCombo.Text.ToString(), unitCostCombo.Text.ToString());
 
                 if (!items.ContainsKey(newItem.Category + newItem.Name))
                     items.Add(newItem.Category + newItem.Name, newItem);
@@ -125,9 +138,17 @@ namespace SDEV240GroupProject
                 return;
             }
 
+            uniqueValues["Category"].Add(newItem.Category);
+            uniqueValues["Item"].Add(newItem.Name);
+            uniqueValues["Material"].Add(newItem.Material);
+            uniqueValues["SizeDesc"].Add(newItem.SizeDesc);
+            uniqueValues["Quantity"].Add(newItem.Quantity.ToString());
+            uniqueValues["UnitCost"].Add(newItem.UnitCost.ToString());
+
             dataGridView1.Rows.Insert(dataGridView1.Rows.Count, newItem.Category, newItem.Name, newItem.Material, newItem.SizeDesc, newItem.Quantity, newItem.UnitCost, newItem.Cost);
             dataGridView1.Sort(Category, ListSortDirection.Ascending);
             UpdateSubtotalRows();
+            RefreshComboBoxes();
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
@@ -203,9 +224,18 @@ namespace SDEV240GroupProject
                                 errItems.Add(ex.Message + "\n");
                                 continue;
                             }
+
+                            uniqueValues["Category"].Add(item.Category);
+                            uniqueValues["Item"].Add(item.Name);
+                            uniqueValues["Material"].Add(item.Material);
+                            uniqueValues["SizeDesc"].Add(item.SizeDesc);
+                            uniqueValues["Quantity"].Add(item.Quantity.ToString());
+                            uniqueValues["UnitCost"].Add(item.UnitCost.ToString());
+
                             dataGridView1.Rows.Insert(dataGridView1.Rows.Count, item.Category, item.Name, item.Material, item.SizeDesc, item.Quantity, item.UnitCost, item.Cost);
                             dataGridView1.Sort(Category, ListSortDirection.Ascending);
                             UpdateSubtotalRows();
+                            RefreshComboBoxes();
                         }
                         if (errItems.Count > 0)
                         {
@@ -228,6 +258,14 @@ namespace SDEV240GroupProject
 
             // Clear the dictionary
             items.Clear();
+
+            // Clear the comboBoxes
+            categoryCombo.DataSource = null;
+            itemCombo.DataSource = null;
+            materialCombo.DataSource = null;
+            sizeDescCombo.DataSource = null;
+            quantityCombo.DataSource = null;
+            unitCostCombo.DataSource = null;
         }
 
         private void calcBtn_Click(object sender, EventArgs e)
@@ -239,6 +277,155 @@ namespace SDEV240GroupProject
 
             }
             totalCostLbl.Text = "$" + Convert.ToString(TotalCost);
+        }
+
+        private void RefreshComboBoxes()
+        {
+            // Recreate the lists of unique values
+            List<string> uniqueCategories = new List<string>(uniqueValues["Category"]);
+            List<string> uniqueNames = new List<string>(uniqueValues["Item"]);
+            List<string> uniqueMaterials = new List<string>(uniqueValues["Material"]);
+            List<string> uniqueSizeDescs = new List<string>(uniqueValues["SizeDesc"]);
+            List<string> uniqueQuantities = new List<string>(uniqueValues["Quantity"]);
+            List<string> uniqueUnitCosts = new List<string>(uniqueValues["UnitCost"]);
+
+            // Update the ComboBox data sources
+
+            foreach (string columnName in columnNames)
+            {
+                ComboBox comboBox = GetComboBoxByName(columnName);
+                if (comboBox != null)
+                {
+                    string categorySelected = comboBox.Text.ToString();
+                    comboBox.DataSource = new List<string>(uniqueValues[columnName]);
+                    comboBox.SelectedItem = categorySelected;
+                }
+            }
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                ComboBox comboBoxToUpdate;
+                int colindex = 0;
+                foreach (string columnName in columnNames)
+                {
+                    // Determine which ComboBox to update based on the column name
+                    comboBoxToUpdate = GetComboBoxByName(columnName);
+
+                    if (comboBoxToUpdate != null)
+                    {
+                        // Set the selected item in the ComboBox
+                        comboBoxToUpdate.SelectedItem = dataGridView1.Rows[e.RowIndex].Cells[colindex].Value.ToString();
+                    }
+                    colindex++;
+                }
+            }
+        }
+
+        private ComboBox GetComboBoxByName(string columnName)
+        {
+            string comboBoxName = char.ToLower(columnName[0]) + columnName.Substring(1) + "Combo";
+            return Controls.Find(comboBoxName, true).FirstOrDefault() as ComboBox;
+        }
+
+        private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            dataGridView1.Sort(dataGridView1.Columns[e.ColumnIndex], sortingOrder);
+
+            if (sortingOrder == ListSortDirection.Ascending)
+                sortingOrder = ListSortDirection.Descending;
+            else sortingOrder = ListSortDirection.Ascending;
+
+            dataGridView1.Sort(dataGridView1.Columns["Category"], ListSortDirection.Ascending);
+        }
+
+        private void dataGridView1_SortCompare(object sender, DataGridViewSortCompareEventArgs e)
+        {
+            // Check if the column being sorted is the one with mixed integers and empty strings
+            if (e.Column.Name == "Quantity" || e.Column.Name == "UnitCost" || e.Column.Name == "Cost")
+            {
+                int int1, int2;
+                bool isInt1 = int.TryParse(e.CellValue1.ToString(), out int1);
+                bool isInt2 = int.TryParse(e.CellValue2.ToString(), out int2);
+
+                // Handle empty strings by considering them as larger than any integer
+                if (!isInt1 && !isInt2)
+                {
+                    e.SortResult = 0; // Both are empty strings, treat them as equal
+                }
+                else if (!isInt1)
+                {
+                    e.SortResult = 1; // First value is an empty string, place it at the end
+                }
+                else if (!isInt2)
+                {
+                    e.SortResult = -1; // Second value is an empty string, place it at the end
+                }
+                else
+                {
+                    e.SortResult = int1.CompareTo(int2); // Compare as integers
+                }
+
+                e.Handled = true; // Mark the event as handled
+            }
+        }
+
+        private void updateBtn_Click(object sender, EventArgs e)
+        {
+            Item newItem;
+            try
+            {
+                newItem = new Item(categoryCombo.Text.ToString(), itemCombo.Text.ToString(), materialCombo.Text.ToString(), sizeDescCombo.Text.ToString(), quantityCombo.Text.ToString(), unitCostCombo.Text.ToString());
+
+                if (!items.ContainsKey(newItem.Category + newItem.Name))
+                    throw new ArgumentException("Item not present in current category");
+                else
+                    items[newItem.Category + newItem.Name] = newItem;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            uniqueValues["Material"].Add(newItem.Material);
+            uniqueValues["SizeDesc"].Add(newItem.SizeDesc);
+            uniqueValues["Quantity"].Add(newItem.Quantity.ToString());
+            uniqueValues["UnitCost"].Add(newItem.UnitCost.ToString());
+
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells["Category"].Value.ToString() == newItem.Category && row.Cells["Item"].Value.ToString() == newItem.Name)
+                {
+                    // Update the item's properties in the DataGridView
+                    row.Cells["Material"].Value = newItem.Material;
+                    row.Cells["SizeDesc"].Value = newItem.SizeDesc;
+                    row.Cells["Quantity"].Value = newItem.Quantity;
+                    row.Cells["UnitCost"].Value = newItem.UnitCost;
+                    row.Cells["Cost"].Value = newItem.Cost;
+
+                    break; // Exit the loop after updating the item
+                }
+            }
+
+            dataGridView1.Sort(Category, ListSortDirection.Ascending);
+            UpdateSubtotalRows();
+            RefreshComboBoxes();
+        }
+
+        private void clearBtn_Click(object sender, EventArgs e)
+        {
+            foreach (string columnName in columnNames)
+            {
+                ComboBox comboBox = GetComboBoxByName(columnName);
+                if (comboBox != null)
+                {
+                    comboBox.Text = "";
+                }
+            }
         }
     }
 }
