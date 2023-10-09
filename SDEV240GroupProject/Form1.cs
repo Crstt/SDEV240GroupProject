@@ -8,12 +8,22 @@ namespace SDEV240GroupProject
 {
     public partial class Form1 : Form
     {
+        // List to store column names
         List<string> columnNames = new List<string>();
+
+        // List to store row indices where subtotals should be displayed
         List<int> subtotalRows = new List<int>();
+
+        // Dictionary to store items with a unique identifier as the key
         Dictionary<string, Item> items = new Dictionary<string, Item>();
+
+        // File name for reading/writing data (CSV file)
         string fileName = AppDomain.CurrentDomain.BaseDirectory + "MaterialList.csv";
+
+        // Initial sorting order for the DataGridView
         ListSortDirection sortingOrder = ListSortDirection.Ascending;
 
+        // Dictionary to store unique values for each column in the DataGridView
         Dictionary<string, HashSet<string>> uniqueValues = new Dictionary<string, HashSet<string>>
         {
             { "Category", new HashSet<string>() },
@@ -27,9 +37,11 @@ namespace SDEV240GroupProject
         public Form1()
         {
             InitializeComponent();
+
+            // Attach the SortCompare event handler to the DataGridView
             dataGridView1.SortCompare += dataGridView1_SortCompare;
 
-            // Iterate through the DataGridView's columns
+            // Iterate through the DataGridView's columns and add their names to the columnNames list
             foreach (DataGridViewColumn column in dataGridView1.Columns)
             {
                 columnNames.Add(column.Name);
@@ -41,12 +53,16 @@ namespace SDEV240GroupProject
             string currentCategory = null;
             subtotalRows = new List<int>();
 
+            // Dictionary to store subtotal costs for each category
             Dictionary<string, double> subtotalCosts = new Dictionary<string, double>();
 
+            // Iterate through the rows of the DataGridView
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
             {
+                // Get the value in the "Category" column for the current row
                 string category = (string)dataGridView1.Rows[i].Cells[Category.Index].Value;
 
+                // Remove rows with "Subtotal" in the category
                 if (category.Contains("Subtotal"))
                 {
                     dataGridView1.Rows.Remove(dataGridView1.Rows[i]);
@@ -55,23 +71,26 @@ namespace SDEV240GroupProject
 
                 if (category != null)
                 {
-
+                    // Check if the category has changed
                     if (category != currentCategory)
                     {
                         int k = i;
                         string nextCategory = null;
+
+                        // Calculate subtotal for the current category
                         do
                         {
                             int quantity = (int)dataGridView1.Rows[k].Cells[Quantity.Index].Value;
                             double cost = (double)dataGridView1.Rows[k].Cells[Cost.Index].Value;
 
-                            // Adds or updates subtotal in dictionary
+                            // Adds or updates subtotal in the dictionary
                             if (!subtotalCosts.ContainsKey(category))
                                 subtotalCosts.Add(category, cost);
                             else
                                 subtotalCosts[category] += cost;
 
                             k++;
+
                             if (k < dataGridView1.Rows.Count)
                                 nextCategory = (string)dataGridView1.Rows[k].Cells[Category.Index].Value;
 
@@ -92,9 +111,10 @@ namespace SDEV240GroupProject
                             dataGridView1.Rows[k].Cells[Cost.Index].Value = subtotalCosts[category];
                         }
 
+                        // Add the index of the subtotal row to the subtotalRows list
                         subtotalRows.Add(k);
 
-                        // Skip to the next row
+                        // Skip to the next row after processing the category
                         i = k++;
                     }
                 }
@@ -112,7 +132,7 @@ namespace SDEV240GroupProject
 
         private void dataGridView1_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
-            // Removes item from items Dictionary
+            // Removes the item from the items Dictionary based on the Category and Item values
             string key = e.Row.Cells[Category.Index].Value.ToString() + e.Row.Cells[Item.Index].Value.ToString();
             items.Remove(key);
 
@@ -125,19 +145,23 @@ namespace SDEV240GroupProject
             Item newItem;
             try
             {
+                // Create a new Item object using the values from ComboBoxes
                 newItem = new Item(categoryCombo.Text.ToString(), itemCombo.Text.ToString(), materialCombo.Text.ToString(), sizeDescCombo.Text.ToString(), quantityCombo.Text.ToString(), unitCostCombo.Text.ToString());
 
+                // Check if the item already exists in the items Dictionary based on Category and Name
                 if (!items.ContainsKey(newItem.Category + newItem.Name))
-                    items.Add(newItem.Category + newItem.Name, newItem);
+                    items.Add(newItem.Category + newItem.Name, newItem); // Add the new item
                 else
                     throw new ArgumentException("Item already present in current category");
             }
             catch (Exception ex)
             {
+                // Show an error message if there's a validation or exception error
                 MessageBox.Show(ex.Message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return; // Exit the method if there's an error
             }
 
+            // Add unique values to the uniqueValues Dictionary for filtering
             uniqueValues["Category"].Add(newItem.Category);
             uniqueValues["Item"].Add(newItem.Name);
             uniqueValues["Material"].Add(newItem.Material);
@@ -145,8 +169,12 @@ namespace SDEV240GroupProject
             uniqueValues["Quantity"].Add(newItem.Quantity.ToString());
             uniqueValues["UnitCost"].Add(newItem.UnitCost.ToString());
 
+            // Insert the new item into the DataGridView
             dataGridView1.Rows.Insert(dataGridView1.Rows.Count, newItem.Category, newItem.Name, newItem.Material, newItem.SizeDesc, newItem.Quantity, newItem.UnitCost, newItem.Cost);
+
+            // Sort the DataGridView by Category in ascending order
             dataGridView1.Sort(Category, ListSortDirection.Ascending);
+
             UpdateSubtotalRows();
             RefreshComboBoxes();
         }
@@ -225,6 +253,7 @@ namespace SDEV240GroupProject
                                 continue;
                             }
 
+                            // Add unique values to the uniqueValues Dictionary for filtering
                             uniqueValues["Category"].Add(item.Category);
                             uniqueValues["Item"].Add(item.Name);
                             uniqueValues["Material"].Add(item.Material);
@@ -232,12 +261,13 @@ namespace SDEV240GroupProject
                             uniqueValues["Quantity"].Add(item.Quantity.ToString());
                             uniqueValues["UnitCost"].Add(item.UnitCost.ToString());
 
+                            // Insert the new item into the DataGridView
                             dataGridView1.Rows.Insert(dataGridView1.Rows.Count, item.Category, item.Name, item.Material, item.SizeDesc, item.Quantity, item.UnitCost, item.Cost);
                             dataGridView1.Sort(Category, ListSortDirection.Ascending);
                             UpdateSubtotalRows();
                             RefreshComboBoxes();
                         }
-                        if (errItems.Count > 0)
+                        if (errItems.Count > 0) //Shows error message window if any present
                         {
                             string errorMessage = "";
                             foreach (string err in errItems)
@@ -271,11 +301,15 @@ namespace SDEV240GroupProject
         private void calcBtn_Click(object sender, EventArgs e)
         {
             double TotalCost = 0;
+
+            // Iterate through all items in the items Dictionary
             foreach (Item item in items.Values)
             {
+                // Accumulate the cost of each item to calculate the total cost
                 TotalCost += item.Cost;
-
             }
+
+            // Display the total cost in the totalCostLbl label
             totalCostLbl.Text = "$" + Convert.ToString(TotalCost);
         }
 
@@ -326,18 +360,25 @@ namespace SDEV240GroupProject
 
         private ComboBox GetComboBoxByName(string columnName)
         {
+            // Convert the column name to the expected ComboBox name format
             string comboBoxName = char.ToLower(columnName[0]) + columnName.Substring(1) + "Combo";
+
+            // Find the control in the form's Controls collection
             return Controls.Find(comboBoxName, true).FirstOrDefault() as ComboBox;
         }
 
         private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            // Sort the DataGridView based on the clicked column and the current sorting order
             dataGridView1.Sort(dataGridView1.Columns[e.ColumnIndex], sortingOrder);
 
+            // Toggle the sorting order (ascending to descending or vice versa) for the next click
             if (sortingOrder == ListSortDirection.Ascending)
                 sortingOrder = ListSortDirection.Descending;
-            else sortingOrder = ListSortDirection.Ascending;
+            else
+                sortingOrder = ListSortDirection.Ascending;
 
+            // After sorting, ensure the DataGridView is always sorted by "Category" in ascending order
             dataGridView1.Sort(dataGridView1.Columns["Category"], ListSortDirection.Ascending);
         }
 
@@ -377,8 +418,10 @@ namespace SDEV240GroupProject
             Item newItem;
             try
             {
+                // Create a new Item object using the values from ComboBoxes
                 newItem = new Item(categoryCombo.Text.ToString(), itemCombo.Text.ToString(), materialCombo.Text.ToString(), sizeDescCombo.Text.ToString(), quantityCombo.Text.ToString(), unitCostCombo.Text.ToString());
 
+                // Check if the item exists in the items Dictionary, and update it if found
                 if (!items.ContainsKey(newItem.Category + newItem.Name))
                     throw new ArgumentException("Item not present in current category");
                 else
@@ -386,16 +429,18 @@ namespace SDEV240GroupProject
             }
             catch (Exception ex)
             {
+                // Show an error message if there's a validation or exception error
                 MessageBox.Show(ex.Message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return; // Exit the method if there's an error
             }
 
+            // Add unique values to the uniqueValues Dictionary for filtering
             uniqueValues["Material"].Add(newItem.Material);
             uniqueValues["SizeDesc"].Add(newItem.SizeDesc);
             uniqueValues["Quantity"].Add(newItem.Quantity.ToString());
             uniqueValues["UnitCost"].Add(newItem.UnitCost.ToString());
 
-
+            // Iterate through DataGridView rows to find and update the matching item
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (row.Cells["Category"].Value.ToString() == newItem.Category && row.Cells["Item"].Value.ToString() == newItem.Name)
@@ -411,18 +456,25 @@ namespace SDEV240GroupProject
                 }
             }
 
+            // Sort the DataGridView by Category in ascending order
             dataGridView1.Sort(Category, ListSortDirection.Ascending);
+
             UpdateSubtotalRows();
             RefreshComboBoxes();
         }
 
         private void clearBtn_Click(object sender, EventArgs e)
         {
+            // Iterate through column names to clear corresponding ComboBoxes
             foreach (string columnName in columnNames)
             {
+                // Get the ComboBox control based on the column name
                 ComboBox comboBox = GetComboBoxByName(columnName);
+
+                // Check if the ComboBox was found
                 if (comboBox != null)
                 {
+                    // Clear the text in the ComboBox
                     comboBox.Text = "";
                 }
             }

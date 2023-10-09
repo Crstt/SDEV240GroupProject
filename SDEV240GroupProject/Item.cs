@@ -17,6 +17,7 @@ namespace SDEV240GroupProject
         private double unitCost;
         private double cost;
 
+        // Properties for the Item class
         public string Category
         {
             get { return category; }
@@ -29,6 +30,7 @@ namespace SDEV240GroupProject
                 }
             }
         }
+
         public string Name
         {
             get { return name; }
@@ -41,6 +43,7 @@ namespace SDEV240GroupProject
                 }
             }
         }
+
         public string Material
         {
             get { return material; }
@@ -53,6 +56,7 @@ namespace SDEV240GroupProject
                 }
             }
         }
+
         public string SizeDesc
         {
             get { return sizeDesc; }
@@ -107,11 +111,13 @@ namespace SDEV240GroupProject
             }
         }
 
+        // Method to update the cost based on quantity and unit cost
         private void UpdateCost()
         {
             Cost = Quantity * UnitCost;
         }
 
+        // INotifyPropertyChanged event and method
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -119,6 +125,7 @@ namespace SDEV240GroupProject
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        // Constructor for the Item class
         public Item(string category, string name, string material, string sizeDesc, string quantityStr, string unitCostStr)
         {
             int quantity;
@@ -146,6 +153,7 @@ namespace SDEV240GroupProject
                 throw new ArgumentOutOfRangeException("The quantity must be greater than zero and the unit cost must be greater than or equal to zero.");
             }
 
+            // Initialize the properties of the Item
             this.Category = category;
             this.Name = name;
             this.Material = material;
