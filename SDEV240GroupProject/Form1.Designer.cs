@@ -37,6 +37,12 @@
             UnitCost = new DataGridViewTextBoxColumn();
             Cost = new DataGridViewTextBoxColumn();
             insertGroup = new GroupBox();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            label1 = new Label();
             editBtn = new Button();
             clearBtn = new Button();
             addItemBtn = new Button();
@@ -53,12 +59,6 @@
             resetBtn = new Button();
             importBtn = new Button();
             saveBtn = new Button();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            label5 = new Label();
-            label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             insertGroup.SuspendLayout();
             totalCostBox.SuspendLayout();
@@ -164,6 +164,66 @@
             insertGroup.TabStop = false;
             insertGroup.Text = "Add New Items";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.Location = new Point(11, 400);
+            label6.Name = "label6";
+            label6.Size = new Size(69, 20);
+            label6.TabIndex = 14;
+            label6.Text = "Unit Cost";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label5.Location = new Point(11, 334);
+            label5.Name = "label5";
+            label5.Size = new Size(65, 20);
+            label5.TabIndex = 13;
+            label5.Text = "Quantity";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label4.Location = new Point(11, 263);
+            label4.Name = "label4";
+            label4.Size = new Size(118, 20);
+            label4.TabIndex = 12;
+            label4.Text = "Size/Description";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.Location = new Point(11, 193);
+            label3.Name = "label3";
+            label3.Size = new Size(64, 20);
+            label3.TabIndex = 11;
+            label3.Text = "Material";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Location = new Point(11, 121);
+            label2.Name = "label2";
+            label2.Size = new Size(39, 20);
+            label2.TabIndex = 10;
+            label2.Text = "Item";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.Location = new Point(11, 50);
+            label1.Name = "label1";
+            label1.Size = new Size(69, 20);
+            label1.TabIndex = 9;
+            label1.Text = "Category";
+            // 
             // editBtn
             // 
             editBtn.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
@@ -200,6 +260,7 @@
             // 
             // costCombo
             // 
+            costCombo.DropDownStyle = ComboBoxStyle.Simple;
             costCombo.FormattingEnabled = true;
             costCombo.Location = new Point(11, 424);
             costCombo.Margin = new Padding(3, 4, 3, 4);
@@ -209,6 +270,7 @@
             // 
             // quantityCombo
             // 
+            quantityCombo.DropDownStyle = ComboBoxStyle.Simple;
             quantityCombo.FormattingEnabled = true;
             quantityCombo.Location = new Point(11, 358);
             quantityCombo.Margin = new Padding(3, 4, 3, 4);
@@ -218,6 +280,7 @@
             // 
             // sizeDescCombo
             // 
+            sizeDescCombo.DropDownStyle = ComboBoxStyle.Simple;
             sizeDescCombo.FormattingEnabled = true;
             sizeDescCombo.Location = new Point(11, 287);
             sizeDescCombo.Margin = new Padding(3, 4, 3, 4);
@@ -227,6 +290,7 @@
             // 
             // materialCombo
             // 
+            materialCombo.DropDownStyle = ComboBoxStyle.Simple;
             materialCombo.FormattingEnabled = true;
             materialCombo.Location = new Point(11, 217);
             materialCombo.Margin = new Padding(3, 4, 3, 4);
@@ -236,6 +300,7 @@
             // 
             // itemCombo
             // 
+            itemCombo.DropDownStyle = ComboBoxStyle.Simple;
             itemCombo.FormattingEnabled = true;
             itemCombo.Location = new Point(11, 145);
             itemCombo.Margin = new Padding(3, 4, 3, 4);
@@ -245,6 +310,7 @@
             // 
             // categoryCombo
             // 
+            categoryCombo.DropDownStyle = ComboBoxStyle.Simple;
             categoryCombo.FormattingEnabled = true;
             categoryCombo.Location = new Point(11, 74);
             categoryCombo.Margin = new Padding(3, 4, 3, 4);
@@ -339,66 +405,6 @@
             saveBtn.Text = "Save";
             saveBtn.UseVisualStyleBackColor = true;
             saveBtn.Click += saveBtn_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(11, 50);
-            label1.Name = "label1";
-            label1.Size = new Size(69, 20);
-            label1.TabIndex = 9;
-            label1.Text = "Category";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(11, 121);
-            label2.Name = "label2";
-            label2.Size = new Size(39, 20);
-            label2.TabIndex = 10;
-            label2.Text = "Item";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(11, 193);
-            label3.Name = "label3";
-            label3.Size = new Size(64, 20);
-            label3.TabIndex = 11;
-            label3.Text = "Material";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(11, 263);
-            label4.Name = "label4";
-            label4.Size = new Size(118, 20);
-            label4.TabIndex = 12;
-            label4.Text = "Size/Description";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(11, 334);
-            label5.Name = "label5";
-            label5.Size = new Size(65, 20);
-            label5.TabIndex = 13;
-            label5.Text = "Quantity";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(11, 400);
-            label6.Name = "label6";
-            label6.Size = new Size(69, 20);
-            label6.TabIndex = 14;
-            label6.Text = "Unit Cost";
             // 
             // Form1
             // 

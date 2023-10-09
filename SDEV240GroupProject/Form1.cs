@@ -240,5 +240,10 @@ namespace SDEV240GroupProject
             }
             totalCostLbl.Text = "$" + Convert.ToString(TotalCost);
         }
+
+        private void editBtn_Click(Object sender, EventArgs e) 
+        { 
+
+        }
     }
 }
