@@ -37,12 +37,12 @@
             UnitCost = new DataGridViewTextBoxColumn();
             Cost = new DataGridViewTextBoxColumn();
             insertGroup = new GroupBox();
-            label6 = new Label();
-            label5 = new Label();
-            label4 = new Label();
-            label3 = new Label();
-            label2 = new Label();
-            label1 = new Label();
+            CostLabel = new Label();
+            QuantityLabel = new Label();
+            SizeDescLabel = new Label();
+            MaterialLabel = new Label();
+            ItemLabel = new Label();
+            CategoryLabel = new Label();
             editBtn = new Button();
             clearBtn = new Button();
             addItemBtn = new Button();
@@ -139,12 +139,12 @@
             // 
             // insertGroup
             // 
-            insertGroup.Controls.Add(label6);
-            insertGroup.Controls.Add(label5);
-            insertGroup.Controls.Add(label4);
-            insertGroup.Controls.Add(label3);
-            insertGroup.Controls.Add(label2);
-            insertGroup.Controls.Add(label1);
+            insertGroup.Controls.Add(CostLabel);
+            insertGroup.Controls.Add(QuantityLabel);
+            insertGroup.Controls.Add(SizeDescLabel);
+            insertGroup.Controls.Add(MaterialLabel);
+            insertGroup.Controls.Add(ItemLabel);
+            insertGroup.Controls.Add(CategoryLabel);
             insertGroup.Controls.Add(editBtn);
             insertGroup.Controls.Add(clearBtn);
             insertGroup.Controls.Add(addItemBtn);
@@ -164,65 +164,65 @@
             insertGroup.TabStop = false;
             insertGroup.Text = "Add New Items";
             // 
-            // label6
+            // CostLabel
             // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.Location = new Point(11, 400);
-            label6.Name = "label6";
-            label6.Size = new Size(69, 20);
-            label6.TabIndex = 14;
-            label6.Text = "Unit Cost";
+            CostLabel.AutoSize = true;
+            CostLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            CostLabel.Location = new Point(11, 400);
+            CostLabel.Name = "CostLabel";
+            CostLabel.Size = new Size(69, 20);
+            CostLabel.TabIndex = 14;
+            CostLabel.Text = "Unit Cost";
             // 
-            // label5
+            // QuantityLabel
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(11, 334);
-            label5.Name = "label5";
-            label5.Size = new Size(65, 20);
-            label5.TabIndex = 13;
-            label5.Text = "Quantity";
+            QuantityLabel.AutoSize = true;
+            QuantityLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            QuantityLabel.Location = new Point(11, 334);
+            QuantityLabel.Name = "QuantityLabel";
+            QuantityLabel.Size = new Size(65, 20);
+            QuantityLabel.TabIndex = 13;
+            QuantityLabel.Text = "Quantity";
             // 
-            // label4
+            // SizeDescLabel
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(11, 263);
-            label4.Name = "label4";
-            label4.Size = new Size(118, 20);
-            label4.TabIndex = 12;
-            label4.Text = "Size/Description";
+            SizeDescLabel.AutoSize = true;
+            SizeDescLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            SizeDescLabel.Location = new Point(11, 263);
+            SizeDescLabel.Name = "SizeDescLabel";
+            SizeDescLabel.Size = new Size(118, 20);
+            SizeDescLabel.TabIndex = 12;
+            SizeDescLabel.Text = "Size/Description";
             // 
-            // label3
+            // MaterialLabel
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(11, 193);
-            label3.Name = "label3";
-            label3.Size = new Size(64, 20);
-            label3.TabIndex = 11;
-            label3.Text = "Material";
+            MaterialLabel.AutoSize = true;
+            MaterialLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            MaterialLabel.Location = new Point(11, 193);
+            MaterialLabel.Name = "MaterialLabel";
+            MaterialLabel.Size = new Size(64, 20);
+            MaterialLabel.TabIndex = 11;
+            MaterialLabel.Text = "Material";
             // 
-            // label2
+            // ItemLabel
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(11, 121);
-            label2.Name = "label2";
-            label2.Size = new Size(39, 20);
-            label2.TabIndex = 10;
-            label2.Text = "Item";
+            ItemLabel.AutoSize = true;
+            ItemLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            ItemLabel.Location = new Point(11, 121);
+            ItemLabel.Name = "ItemLabel";
+            ItemLabel.Size = new Size(39, 20);
+            ItemLabel.TabIndex = 10;
+            ItemLabel.Text = "Item";
             // 
-            // label1
+            // CategoryLabel
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(11, 50);
-            label1.Name = "label1";
-            label1.Size = new Size(69, 20);
-            label1.TabIndex = 9;
-            label1.Text = "Category";
+            CategoryLabel.AutoSize = true;
+            CategoryLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            CategoryLabel.Location = new Point(11, 50);
+            CategoryLabel.Name = "CategoryLabel";
+            CategoryLabel.Size = new Size(69, 20);
+            CategoryLabel.TabIndex = 9;
+            CategoryLabel.Text = "Category";
             // 
             // editBtn
             // 
@@ -234,6 +234,7 @@
             editBtn.TabIndex = 7;
             editBtn.Text = "Edit";
             editBtn.UseVisualStyleBackColor = true;
+            editBtn.Click += editBtn_Click;
             // 
             // clearBtn
             // 
@@ -245,6 +246,7 @@
             clearBtn.TabIndex = 8;
             clearBtn.Text = "Clear";
             clearBtn.UseVisualStyleBackColor = true;
+            clearBtn.Click += clearBtn_Click;
             // 
             // addItemBtn
             // 
@@ -261,6 +263,7 @@
             // costCombo
             // 
             costCombo.DropDownStyle = ComboBoxStyle.Simple;
+            costCombo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             costCombo.FormattingEnabled = true;
             costCombo.Location = new Point(11, 424);
             costCombo.Margin = new Padding(3, 4, 3, 4);
@@ -271,6 +274,7 @@
             // quantityCombo
             // 
             quantityCombo.DropDownStyle = ComboBoxStyle.Simple;
+            quantityCombo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             quantityCombo.FormattingEnabled = true;
             quantityCombo.Location = new Point(11, 358);
             quantityCombo.Margin = new Padding(3, 4, 3, 4);
@@ -281,6 +285,7 @@
             // sizeDescCombo
             // 
             sizeDescCombo.DropDownStyle = ComboBoxStyle.Simple;
+            sizeDescCombo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             sizeDescCombo.FormattingEnabled = true;
             sizeDescCombo.Location = new Point(11, 287);
             sizeDescCombo.Margin = new Padding(3, 4, 3, 4);
@@ -291,6 +296,7 @@
             // materialCombo
             // 
             materialCombo.DropDownStyle = ComboBoxStyle.Simple;
+            materialCombo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             materialCombo.FormattingEnabled = true;
             materialCombo.Location = new Point(11, 217);
             materialCombo.Margin = new Padding(3, 4, 3, 4);
@@ -300,23 +306,25 @@
             // 
             // itemCombo
             // 
-            itemCombo.DropDownStyle = ComboBoxStyle.Simple;
+            itemCombo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             itemCombo.FormattingEnabled = true;
             itemCombo.Location = new Point(11, 145);
             itemCombo.Margin = new Padding(3, 4, 3, 4);
             itemCombo.Name = "itemCombo";
             itemCombo.Size = new Size(323, 28);
             itemCombo.TabIndex = 1;
+            itemCombo.SelectedIndexChanged += itemCombo_SelectedIndexChanged;
             // 
             // categoryCombo
             // 
-            categoryCombo.DropDownStyle = ComboBoxStyle.Simple;
+            categoryCombo.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             categoryCombo.FormattingEnabled = true;
             categoryCombo.Location = new Point(11, 74);
             categoryCombo.Margin = new Padding(3, 4, 3, 4);
             categoryCombo.Name = "categoryCombo";
             categoryCombo.Size = new Size(323, 28);
             categoryCombo.TabIndex = 0;
+            categoryCombo.SelectedIndexChanged += categoryCombo_SelectedIndexChanged;
             // 
             // totalCostBox
             // 
@@ -454,11 +462,11 @@
         private DataGridViewTextBoxColumn Quantity;
         private DataGridViewTextBoxColumn UnitCost;
         private DataGridViewTextBoxColumn Cost;
-        private Label label6;
-        private Label label5;
-        private Label label4;
-        private Label label3;
-        private Label label2;
-        private Label label1;
+        private Label CostLabel;
+        private Label QuantityLabel;
+        private Label SizeDescLabel;
+        private Label MaterialLabel;
+        private Label ItemLabel;
+        private Label CategoryLabel;
     }
 }

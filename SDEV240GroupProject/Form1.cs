@@ -3,11 +3,14 @@ using System.Data;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace SDEV240GroupProject
 {
     public partial class Form1 : Form
     {
+        int rowIndex = -1;
+        bool isEditing = false;
         List<string> columnNames = new List<string>();
         List<int> subtotalRows = new List<int>();
         Dictionary<string, Item> items = new Dictionary<string, Item>();
@@ -50,8 +53,22 @@ namespace SDEV240GroupProject
                         string nextCategory = null;
                         do
                         {
-                            int quantity = (int)dataGridView1.Rows[k].Cells[Quantity.Index].Value;
-                            double cost = (double)dataGridView1.Rows[k].Cells[Cost.Index].Value;
+                            int quantity;
+                            if (!int.TryParse(dataGridView1.Rows[k].Cells[Quantity.Index].Value.ToString(), out quantity))
+                            {
+                                // Handle the case where the conversion failed
+                                MessageBox.Show("Invalid quantity value in row " + (k + 1) + ". Please enter a valid integer.", "Conversion Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            double cost;
+                            if (!double.TryParse(dataGridView1.Rows[k].Cells[Cost.Index].Value.ToString(), out cost))
+                            {
+                                // Handle the case where the conversion failed
+                                MessageBox.Show("Invalid cost value in row " + (k + 1) + ". Please enter a valid number.", "Conversion Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
 
                             // Adds or updates subtotal in dictionary
                             if (!subtotalCosts.ContainsKey(category))
@@ -109,25 +126,140 @@ namespace SDEV240GroupProject
 
         private void addItemBtn_Click(object sender, EventArgs e)
         {
-            Item newItem;
-            try
+            // Check if isEditing is true
+            if (isEditing)
             {
-                newItem = new Item(categoryCombo.Text.ToString(), itemCombo.Text.ToString(), materialCombo.Text.ToString(), sizeDescCombo.Text.ToString(), quantityCombo.Text.ToString(), costCombo.Text.ToString());
+                // Check if rowIndex is valid
+                if (rowIndex >= 0 && rowIndex < dataGridView1.Rows.Count)
+                {
+                    // Remove the old item from the items dictionary
+                    string oldKey = dataGridView1.Rows[rowIndex].Cells[Category.Index].Value.ToString() + dataGridView1.Rows[rowIndex].Cells[Item.Index].Value.ToString();
+                    items.Remove(oldKey);
 
-                if (!items.ContainsKey(newItem.Category + newItem.Name))
-                    items.Add(newItem.Category + newItem.Name, newItem);
-                else
-                    throw new ArgumentException("Item already present in current category");
+                    // Update the row in the DataGridView
+                    dataGridView1.Rows[rowIndex].Cells[Category.Index].Value = categoryCombo.Text;
+                    dataGridView1.Rows[rowIndex].Cells[Item.Index].Value = itemCombo.Text;
+                    dataGridView1.Rows[rowIndex].Cells[Material.Index].Value = materialCombo.Text;
+                    dataGridView1.Rows[rowIndex].Cells[SizeDesc.Index].Value = sizeDescCombo.Text;
+                    dataGridView1.Rows[rowIndex].Cells[Quantity.Index].Value = quantityCombo.Text;
+                    dataGridView1.Rows[rowIndex].Cells[UnitCost.Index].Value = costCombo.Text;
+
+                    // Create a new item with the updated details
+                    Item newItem = new Item(categoryCombo.Text, itemCombo.Text, materialCombo.Text, sizeDescCombo.Text, quantityCombo.Text, costCombo.Text);
+
+                    // Add the new item to the items dictionary
+                    string newKey = newItem.Category + newItem.Name;
+                    items.Add(newKey, newItem);
+                    if (items.ContainsKey(newKey))
+                    {
+                        Item item = items[newKey];
+                        item.Category = categoryCombo.Text;
+                        item.Name = itemCombo.Text;
+                        item.Material = materialCombo.Text;
+                        item.SizeDesc = sizeDescCombo.Text;
+                        item.Quantity = int.Parse(quantityCombo.Text);
+                        item.UnitCost = double.Parse(costCombo.Text);
+
+                        // Update the dictionary
+                        items[newKey] = item;
+                    }
+                }
+                
+                if (!categoryCombo.Items.Contains(categoryCombo.Text))
+                {
+                    categoryCombo.Items.Add(categoryCombo.Text);
+                }
+                if (!itemCombo.Items.Contains(itemCombo.Text))
+                {
+                    itemCombo.Items.Add(itemCombo.Text);
+                }
+                quantityCombo.Items.Add(quantityCombo.Text);
+                sizeDescCombo.Items.Add(sizeDescCombo.Text);
+                materialCombo.Items.Add(materialCombo.Text);
+                costCombo.Items.Add(costCombo.Text);
+                materialCombo.Text = "";
+                sizeDescCombo.Text = "";
+                itemCombo.Text = "";
+                quantityCombo.Text = "";
+                costCombo.Text = "";
+
+                // Remove unused categories from categoryCombo
+                for (int i = categoryCombo.Items.Count - 1; i >= 0; i--)
+                {
+                    string category = categoryCombo.Items[i].ToString();
+                    if (!items.Values.Any(item => item.Category == category))
+                    {
+                        categoryCombo.Items.RemoveAt(i);
+                    }
+                }
+
+                // Remove unused items from itemCombo
+                for (int i = itemCombo.Items.Count - 1; i >= 0; i--)
+                {
+                    string itemName = itemCombo.Items[i].ToString();
+                    if (!items.Values.Any(item => item.Name == itemName))
+                    {
+                        itemCombo.Items.RemoveAt(i);
+                    }
+                }
+
+                itemCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+                categoryCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+                materialCombo.Enabled = false;
+                quantityCombo.Enabled = false;
+                sizeDescCombo.Enabled = false;
+                costCombo.Enabled = false;
+
+                // Reset isEditing to false
+                isEditing = false;
+
+                UpdateSubtotalRows();
+
+                // Refresh the DataGridView
+                dataGridView1.Refresh();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                Item newItem;
+                try
+                {
+                    newItem = new Item(categoryCombo.Text.ToString(), itemCombo.Text.ToString(), materialCombo.Text.ToString(), sizeDescCombo.Text.ToString(), quantityCombo.Text.ToString(), costCombo.Text.ToString());
 
-            dataGridView1.Rows.Insert(dataGridView1.Rows.Count, newItem.Category, newItem.Name, newItem.Material, newItem.SizeDesc, newItem.Quantity, newItem.UnitCost, newItem.Cost);
-            dataGridView1.Sort(Category, ListSortDirection.Ascending);
-            UpdateSubtotalRows();
+                    if (!items.ContainsKey(newItem.Category + newItem.Name))
+                        items.Add(newItem.Category + newItem.Name, newItem);
+                    else
+                        throw new ArgumentException("Item already present in current category");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                dataGridView1.Rows.Insert(dataGridView1.Rows.Count, newItem.Category, newItem.Name, newItem.Material, newItem.SizeDesc, newItem.Quantity, newItem.UnitCost, newItem.Cost);
+                dataGridView1.Sort(Category, ListSortDirection.Ascending);
+                UpdateSubtotalRows();
+
+                if (!categoryCombo.Items.Contains(categoryCombo.Text))
+                {
+                    categoryCombo.Items.Add(categoryCombo.Text);
+                }
+                if (!itemCombo.Items.Contains(itemCombo.Text))
+                {
+                    itemCombo.Items.Add(itemCombo.Text);
+                }
+                quantityCombo.Items.Add(quantityCombo.Text);
+                sizeDescCombo.Items.Add(sizeDescCombo.Text);
+                materialCombo.Items.Add(materialCombo.Text);
+                costCombo.Items.Add(costCombo.Text);
+                materialCombo.Text = "";
+                sizeDescCombo.Text = "";
+                itemCombo.Text = "";
+                quantityCombo.Text = "";
+                costCombo.Text = "";
+
+            }
+ 
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
@@ -241,8 +373,129 @@ namespace SDEV240GroupProject
             totalCostLbl.Text = "$" + Convert.ToString(TotalCost);
         }
 
-        private void editBtn_Click(Object sender, EventArgs e) 
-        { 
+        private void clearBtn_Click(object sender, EventArgs e)
+        {
+            categoryCombo.Text = "";
+            materialCombo.Text = "";
+            sizeDescCombo.Text = "";
+            itemCombo.Text = "";
+            quantityCombo.Text = "";
+            costCombo.Text = "";
+        }
+
+        private void editBtn_Click(object sender, EventArgs e)
+        {
+            isEditing = true;
+
+            // Set the ComboBoxes to editable
+            categoryCombo.DropDownStyle = ComboBoxStyle.DropDown;
+            itemCombo.DropDownStyle = ComboBoxStyle.DropDown;
+            materialCombo.DropDownStyle = ComboBoxStyle.DropDown;
+            sizeDescCombo.DropDownStyle = ComboBoxStyle.DropDown;
+            quantityCombo.DropDownStyle = ComboBoxStyle.DropDown;
+            costCombo.DropDownStyle = ComboBoxStyle.DropDown;
+
+            // Enable the ComboBoxes
+            categoryCombo.Enabled = true;
+            itemCombo.Enabled = true;
+            materialCombo.Enabled = true;
+            sizeDescCombo.Enabled = true;
+            quantityCombo.Enabled = true;
+            costCombo.Enabled = true;
+        }
+
+        private void categoryCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get the selected category
+            string selectedCategory = categoryCombo.Text;
+
+            // Clear the existing items in the itemCombo dropdown
+            itemCombo.Items.Clear();
+
+            // Filter the items dictionary based on the selected category
+            var filteredItems = items.Where(kv => kv.Value.Category == selectedCategory)
+                                     .Select(kv => kv.Value)
+                                     .ToList();
+
+            // Add the filtered items to the itemCombo dropdown
+            foreach (var item in filteredItems)
+            {
+                itemCombo.Items.Add(item.Name);
+            }
+
+            // Enable the itemCombo dropdown
+            itemCombo.Enabled = true;
+
+            // Automatically select the first item in the dropdown (if available)
+            if (itemCombo.Items.Count > 0)
+            {
+                itemCombo.SelectedIndex = 0;
+            }
+
+            itemCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            categoryCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            materialCombo.Enabled = false;
+            quantityCombo.Enabled = false;
+            sizeDescCombo.Enabled = false;
+            costCombo.Enabled = false;
+
+            // Find the row index
+            int rowIndex = -1;
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[Category.Index].Value.ToString() == categoryCombo.Text)
+                {
+                    rowIndex = i;
+                    break;
+                }
+            }
+
+            // Store the row index
+            this.rowIndex = rowIndex;
+        }
+
+        private void itemCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            // Get the selected item name
+            string selectedItemName = itemCombo.Text;
+
+            // Check if the selected item exists in the dictionary
+            if (items.ContainsKey(categoryCombo.Text + selectedItemName))
+            {
+                // Retrieve the item from the dictionary
+                Item selectedItem = items[categoryCombo.Text + selectedItemName];
+
+                // Set the values for the other combo boxes based on the selected item
+                materialCombo.Text = selectedItem.Material;
+                sizeDescCombo.Text = selectedItem.SizeDesc;
+
+                // Convert the double values to strings before setting them
+                quantityCombo.Text = selectedItem.Quantity.ToString();
+                costCombo.Text = selectedItem.UnitCost.ToString();
+            }
+            else
+            {
+                // Clear the combo box values if the item is not found
+                materialCombo.Text = "";
+                sizeDescCombo.Text = "";
+                quantityCombo.Text = "";
+                costCombo.Text = "";
+            }
+
+            // Find the row index
+            int rowIndex = -1;
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[Item.Index].Value.ToString() == itemCombo.Text)
+                {
+                    rowIndex = i;
+                    break;
+                }
+            }
+
+            // Store the row index
+            this.rowIndex = rowIndex;
 
         }
     }
