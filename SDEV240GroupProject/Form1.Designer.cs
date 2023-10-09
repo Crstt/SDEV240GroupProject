@@ -65,7 +65,7 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Category, Item, Material, SizeDesc, Quantity, UnitCost, Cost });
             dataGridView1.Location = new Point(9, 10);
-            dataGridView1.Margin = new Padding(2, 2, 2, 2);
+            dataGridView1.Margin = new Padding(2);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
@@ -146,14 +146,14 @@
             insertGroup.Margin = new Padding(3, 4, 3, 4);
             insertGroup.Name = "insertGroup";
             insertGroup.Padding = new Padding(3, 4, 3, 4);
-            insertGroup.Size = new Size(350, 318);
+            insertGroup.Size = new Size(350, 508);
             insertGroup.TabIndex = 2;
             insertGroup.TabStop = false;
             insertGroup.Text = "Add New Items";
             // 
             // editBtn
             // 
-            editBtn.Location = new Point(127, 272);
+            editBtn.Location = new Point(127, 460);
             editBtn.Margin = new Padding(3, 4, 3, 4);
             editBtn.Name = "editBtn";
             editBtn.Size = new Size(86, 30);
@@ -163,7 +163,7 @@
             // 
             // clearBtn
             // 
-            clearBtn.Location = new Point(244, 272);
+            clearBtn.Location = new Point(244, 460);
             clearBtn.Margin = new Padding(3, 4, 3, 4);
             clearBtn.Name = "clearBtn";
             clearBtn.Size = new Size(86, 30);
@@ -173,7 +173,7 @@
             // 
             // addItemBtn
             // 
-            addItemBtn.Location = new Point(6, 272);
+            addItemBtn.Location = new Point(6, 460);
             addItemBtn.Margin = new Padding(3, 4, 3, 4);
             addItemBtn.Name = "addItemBtn";
             addItemBtn.Size = new Size(86, 30);
@@ -185,7 +185,7 @@
             // costCombo
             // 
             costCombo.FormattingEnabled = true;
-            costCombo.Location = new Point(7, 238);
+            costCombo.Location = new Point(11, 424);
             costCombo.Margin = new Padding(3, 4, 3, 4);
             costCombo.Name = "costCombo";
             costCombo.Size = new Size(323, 28);
@@ -194,7 +194,7 @@
             // quantityCombo
             // 
             quantityCombo.FormattingEnabled = true;
-            quantityCombo.Location = new Point(7, 198);
+            quantityCombo.Location = new Point(11, 343);
             quantityCombo.Margin = new Padding(3, 4, 3, 4);
             quantityCombo.Name = "quantityCombo";
             quantityCombo.Size = new Size(323, 28);
@@ -203,7 +203,7 @@
             // sizeDescCombo
             // 
             sizeDescCombo.FormattingEnabled = true;
-            sizeDescCombo.Location = new Point(7, 160);
+            sizeDescCombo.Location = new Point(11, 262);
             sizeDescCombo.Margin = new Padding(3, 4, 3, 4);
             sizeDescCombo.Name = "sizeDescCombo";
             sizeDescCombo.Size = new Size(323, 28);
@@ -212,7 +212,7 @@
             // materialCombo
             // 
             materialCombo.FormattingEnabled = true;
-            materialCombo.Location = new Point(7, 122);
+            materialCombo.Location = new Point(11, 179);
             materialCombo.Margin = new Padding(3, 4, 3, 4);
             materialCombo.Name = "materialCombo";
             materialCombo.Size = new Size(323, 28);
@@ -221,7 +221,7 @@
             // itemCombo
             // 
             itemCombo.FormattingEnabled = true;
-            itemCombo.Location = new Point(7, 82);
+            itemCombo.Location = new Point(11, 105);
             itemCombo.Margin = new Padding(3, 4, 3, 4);
             itemCombo.Name = "itemCombo";
             itemCombo.Size = new Size(323, 28);
@@ -230,7 +230,7 @@
             // categoryCombo
             // 
             categoryCombo.FormattingEnabled = true;
-            categoryCombo.Location = new Point(7, 44);
+            categoryCombo.Location = new Point(11, 39);
             categoryCombo.Margin = new Padding(3, 4, 3, 4);
             categoryCombo.Name = "categoryCombo";
             categoryCombo.Size = new Size(323, 28);
@@ -241,9 +241,9 @@
             totalCostBox.Controls.Add(totalCostLbl);
             totalCostBox.Controls.Add(calcBtn);
             totalCostBox.Location = new Point(1117, 604);
-            totalCostBox.Margin = new Padding(2, 2, 2, 2);
+            totalCostBox.Margin = new Padding(2);
             totalCostBox.Name = "totalCostBox";
-            totalCostBox.Padding = new Padding(2, 2, 2, 2);
+            totalCostBox.Padding = new Padding(2);
             totalCostBox.Size = new Size(350, 72);
             totalCostBox.TabIndex = 7;
             totalCostBox.TabStop = false;
@@ -276,9 +276,9 @@
             groupBox1.Controls.Add(importBtn);
             groupBox1.Controls.Add(saveBtn);
             groupBox1.Location = new Point(1121, 10);
-            groupBox1.Margin = new Padding(2, 2, 2, 2);
+            groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new Padding(2, 2, 2, 2);
+            groupBox1.Padding = new Padding(2);
             groupBox1.Size = new Size(349, 74);
             groupBox1.TabIndex = 9;
             groupBox1.TabStop = false;
@@ -326,7 +326,7 @@
             Controls.Add(totalCostBox);
             Controls.Add(insertGroup);
             Controls.Add(dataGridView1);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
