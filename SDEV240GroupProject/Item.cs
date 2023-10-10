@@ -1,21 +1,131 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SDEV240GroupProject
 {
-    public class Item
+    public class Item : INotifyPropertyChanged
     {
-        public string Category { get; set; }
-        public string Name { get; set; }
-        public string Material { get; set; }
-        public string SizeDesc { get; set; }
-        public int Quantity { get; set; }
-        public double UnitCost { get; set; }
-        public double Cost { get; set; }
+        private string category;
+        private string name;
+        private string material;
+        private string sizeDesc;
+        private int quantity;
+        private double unitCost;
+        private double cost;
 
+        // Properties for the Item class
+        public string Category
+        {
+            get { return category; }
+            set
+            {
+                if (category != value)
+                {
+                    category = value;
+                    OnPropertyChanged("Category");
+                }
+            }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    OnPropertyChanged("Name");
+                }
+            }
+        }
+
+        public string Material
+        {
+            get { return material; }
+            set
+            {
+                if (material != value)
+                {
+                    material = value;
+                    OnPropertyChanged("Material");
+                }
+            }
+        }
+
+        public string SizeDesc
+        {
+            get { return sizeDesc; }
+            set
+            {
+                if (sizeDesc != value)
+                {
+                    sizeDesc = value;
+                    OnPropertyChanged("SizeDesc");
+                }
+            }
+        }
+
+        public int Quantity
+        {
+            get { return quantity; }
+            set
+            {
+                if (quantity != value)
+                {
+                    quantity = value;
+                    OnPropertyChanged("Quantity");
+                    UpdateCost();
+                }
+            }
+        }
+
+        public double UnitCost
+        {
+            get { return unitCost; }
+            set
+            {
+                if (unitCost != value)
+                {
+                    unitCost = value;
+                    OnPropertyChanged("UnitCost");
+                    UpdateCost();
+                }
+            }
+        }
+
+        public double Cost
+        {
+            get { return cost; }
+            private set
+            {
+                if (cost != value)
+                {
+                    cost = value;
+                    OnPropertyChanged("Cost");
+                }
+            }
+        }
+
+        // Method to update the cost based on quantity and unit cost
+        private void UpdateCost()
+        {
+            Cost = Quantity * UnitCost;
+        }
+
+        // INotifyPropertyChanged event and method
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        // Constructor for the Item class
         public Item(string category, string name, string material, string sizeDesc, string quantityStr, string unitCostStr)
         {
             int quantity;
@@ -43,6 +153,7 @@ namespace SDEV240GroupProject
                 throw new ArgumentOutOfRangeException("The quantity must be greater than zero and the unit cost must be greater than or equal to zero.");
             }
 
+            // Initialize the properties of the Item
             this.Category = category;
             this.Name = name;
             this.Material = material;
@@ -51,10 +162,5 @@ namespace SDEV240GroupProject
             this.UnitCost = unitCost;
             this.Cost = this.Quantity * this.UnitCost;
         }
-
-        public Item()
-        {
-        }
     }
-
 }
